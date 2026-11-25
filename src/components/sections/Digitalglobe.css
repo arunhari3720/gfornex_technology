@@ -1,0 +1,477 @@
+
+/* =========================================
+   COSMIC GLOBE STAGE
+========================================= */
+
+.cosmic-stage {
+  isolation: isolate;
+  overflow: visible;
+  perspective: 1000px;
+}
+
+/* Ambient lighting */
+
+.cosmic-glow {
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 126, 255, 0.19) 0%,
+    rgba(0, 83, 190, 0.09) 40%,
+    transparent 72%
+  );
+  filter: blur(45px);
+  animation: cosmicGlow 6s ease-in-out infinite alternate;
+}
+
+.cosmic-glow-secondary {
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 126, 31, 0.10),
+    transparent 68%
+  );
+  filter: blur(55px);
+  animation: cosmicGlow 8s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes cosmicGlow {
+  from {
+    opacity: 0.45;
+    scale: 0.92;
+  }
+
+  to {
+    opacity: 1;
+    scale: 1.08;
+  }
+}
+
+/* =========================================
+   ORBITAL RINGS
+========================================= */
+
+.cosmic-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid rgba(46, 166, 255, 0.23);
+  border-radius: 50%;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.cosmic-orbit-one {
+  width: 88%;
+  height: 38%;
+  transform: translate(-50%, -50%) rotate(-27deg);
+  border-color: rgba(47, 177, 255, 0.42);
+  animation: orbitalSpin 24s linear infinite;
+}
+
+.cosmic-orbit-two {
+  width: 95%;
+  height: 52%;
+  transform: translate(-50%, -50%) rotate(28deg);
+  border-style: dashed;
+  border-color: rgba(47, 177, 255, 0.24);
+  animation: orbitalSpinReverse 38s linear infinite;
+}
+
+.cosmic-orbit-three {
+  width: 75%;
+  height: 75%;
+  transform: translate(-50%, -50%);
+  border-color: rgba(255, 138, 31, 0.15);
+}
+
+@keyframes orbitalSpin {
+  from {
+    rotate: 0deg;
+  }
+
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes orbitalSpinReverse {
+  from {
+    rotate: 360deg;
+  }
+
+  to {
+    rotate: 0deg;
+  }
+}
+
+/* Orbit nodes */
+
+.orbit-node {
+  position: absolute;
+  z-index: 15;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #27baff;
+  box-shadow:
+    0 0 8px #27baff,
+    0 0 20px rgba(39, 186, 255, 0.7);
+}
+
+.orbit-node-one {
+  top: 21%;
+  left: 19%;
+}
+
+.orbit-node-two {
+  top: 23%;
+  right: 16%;
+  background: #ff922e;
+  box-shadow:
+    0 0 8px #ff922e,
+    0 0 20px rgba(255, 146, 46, 0.7);
+}
+
+.orbit-node-three {
+  bottom: 20%;
+  left: 50%;
+}
+
+/* =========================================
+   HOLOGRAPHIC PANELS
+========================================= */
+
+.holo-panel {
+  width: 190px;
+  animation: holoFloat 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.holo-panel-inner {
+  position: relative;
+  overflow: hidden;
+  padding: 13px;
+  border: 1px solid rgba(77, 184, 255, 0.28);
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(13, 38, 70, 0.95),
+      rgba(4, 15, 34, 0.94)
+    );
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 0 20px rgba(22, 139, 255, 0.08);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* Animated border highlight */
+
+.holo-panel-inner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent),
+    transparent
+  );
+
+  animation: holoScan 4s ease-in-out infinite;
+}
+
+@keyframes holoScan {
+  0%, 100% {
+    left: -100%;
+  }
+
+  50% {
+    left: 150%;
+  }
+}
+
+.holo-panel-inner:hover {
+  border-color: var(--accent);
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.45),
+    0 0 24px color-mix(in srgb, var(--accent), transparent 78%),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+  transform: translateY(-3px);
+}
+
+/* Icon */
+
+.holo-icon {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid color-mix(
+    in srgb,
+    var(--accent),
+    transparent 65%
+  );
+
+  border-radius: 9px;
+
+  color: var(--accent);
+
+  background: color-mix(
+    in srgb,
+    var(--accent),
+    transparent 90%
+  );
+
+  box-shadow: 0 0 12px color-mix(
+    in srgb,
+    var(--accent),
+    transparent 90%
+  );
+}
+
+/* Panel float */
+
+@keyframes holoFloat {
+  0%, 100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -12px;
+  }
+}
+
+/* =========================================
+   PANEL POSITIONS
+========================================= */
+
+.holo-top {
+  top: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.holo-left {
+  top: 37%;
+  left: -1%;
+}
+
+.holo-right {
+  top: 37%;
+  right: -1%;
+}
+
+.holo-bottom-left {
+  bottom: 4%;
+  left: 7%;
+}
+
+.holo-bottom-right {
+  bottom: 4%;
+  right: 7%;
+}
+
+/* =========================================
+   CHART ANIMATION
+========================================= */
+
+.holo-chart {
+  stroke-dasharray: 180;
+  stroke-dashoffset: 180;
+  animation: chartDraw 2.5s ease forwards;
+}
+
+@keyframes chartDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* =========================================
+   CENTER LABEL
+========================================= */
+
+.cosmic-center-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+
+  border: 1px solid rgba(45, 184, 255, 0.35);
+  border-radius: 30px;
+
+  background: rgba(4, 19, 43, 0.88);
+  color: #75d6ff;
+
+  box-shadow:
+    0 0 15px rgba(30, 162, 255, 0.15),
+    inset 0 0 12px rgba(30, 162, 255, 0.08);
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+}
+
+/* =========================================
+   BOTTOM STATUS
+========================================= */
+
+.cosmic-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 9px 16px;
+
+  border: 1px solid rgba(47, 177, 255, 0.22);
+  border-radius: 30px;
+
+  background: rgba(4, 17, 38, 0.88);
+  color: #8baacb;
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+
+  backdrop-filter: blur(12px);
+}
+
+.cosmic-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+
+  background: #21d9a0;
+
+  box-shadow:
+    0 0 7px #21d9a0,
+    0 0 14px rgba(33, 217, 160, 0.7);
+
+  animation: statusPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% {
+    opacity: 1;
+    scale: 1;
+  }
+
+  50% {
+    opacity: 0.45;
+    scale: 0.75;
+  }
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 640px) {
+  .cosmic-stage {
+    max-width: 500px;
+  }
+
+  .holo-panel {
+    width: 150px;
+  }
+
+  .holo-panel-inner {
+    padding: 10px;
+    border-radius: 11px;
+  }
+
+  .holo-top {
+    top: 0;
+  }
+
+  .holo-left {
+    top: 35%;
+    left: -2%;
+  }
+
+  .holo-right {
+    top: 35%;
+    right: -2%;
+  }
+
+  .holo-bottom-left {
+    bottom: 5%;
+    left: 0;
+  }
+
+  .holo-bottom-right {
+    bottom: 5%;
+    right: 0;
+  }
+
+  .cosmic-orbit-one {
+    width: 94%;
+  }
+
+  .cosmic-orbit-two {
+    width: 98%;
+  }
+}
+
+@media (max-width: 390px) {
+  .holo-panel {
+    width: 135px;
+  }
+
+  .holo-panel-inner {
+    padding: 8px;
+  }
+
+  .cosmic-center-label {
+    font-size: 7px;
+    padding: 6px 9px;
+  }
+
+  .cosmic-status {
+    font-size: 7px;
+    padding: 7px 11px;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-glow,
+  .cosmic-orbit,
+  .holo-panel,
+  .holo-panel-inner::before,
+  .holo-chart,
+  .cosmic-status-dot {
+    animation: none !important;
+  }
+
+  .holo-chart {
+    stroke-dashoffset: 0;
+  }
+}
